@@ -67,7 +67,10 @@ def run():
     global elf_pos
     old_elf_pos = {}
     for i in range(1, 11):
+        old_elf_pos = copy.deepcopy(elf_pos)
         propose_dirs()
+        if (old_elf_pos == elf_pos):
+            break
     minx = sys.maxsize
     miny = sys.maxsize
     maxx = -sys.maxsize - 1
