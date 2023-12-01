@@ -1,33 +1,41 @@
-# Input
+## Global Vars ##
 lines = open('day1.txt', 'r').readlines()
+nums = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine":  9}
 
-# Functions
-def getAnswer(lines, numChecker):
+## Functions ##
+def not_none(n):
+    return n is not None
+
+def filter_none(lst):
+    return list(filter(not_none, lst))
+
+def try_digit(c):
+    try:
+        return int(c)
+    except:
+        return None
+
+def try_word(string, position):
+    words = filter_none([nums.get(string[position:position+length]) for length in [3,4,5]])
+    return words[0] if len(words) > 0 else None
+
+def DigitChecker(string, position):
+    return try_digit(string[position])
+
+def DigitAndWordChecker(string, position):
+    dig = try_digit(string[position])
+    word = try_word(string, position)
+    return dig if dig else word if word else None
+
+def getAnswer(numChecker):
     result = 0
     for line in lines:
-        tens, ones = 0, 0
-        for i in range(len(line)):
-            num = numChecker(line, i)
-            if num:
-                tens += (tens==0)*num*10
-                ones = num
-        result += tens + ones
+        hits = filter_none([numChecker(line, i) for i in range(len(line))])
+        result += hits[0]*10 + hits[-1]
     return result
 
-def numChecker1(string, pos):
-    return int(string[pos]) if string[pos].isdigit() else None
-
-nums = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine":  9}
-def numChecker2(string, pos):
-    if string[pos].isdigit():
-        return int(string[pos])
-    for length in [3,4,5]:
-        if string[pos:pos+length] in nums:
-            return nums[string[pos:pos+length]]
-    return None
-
-# Results
+## Results ##
 print("Answer for Part 1:")
-print(getAnswer(lines, numChecker1))
+print(getAnswer(DigitChecker))
 print("Answer for Part 2:")
-print(getAnswer(lines, numChecker2))
+print(getAnswer(DigitAndWordChecker))
