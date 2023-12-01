@@ -19,15 +19,15 @@ def try_word(string, position):
     words = filter_none([nums.get(string[position:position+length]) for length in [3,4,5]])
     return words[0] if len(words) > 0 else None
 
-def DigitChecker(string, position):
+def digit_checker(string, position):
     return try_digit(string[position])
 
-def DigitAndWordChecker(string, position):
+def digit_and_word_checker(string, position):
     dig = try_digit(string[position])
     word = try_word(string, position)
     return dig if dig else word if word else None
 
-def getAnswer(numChecker):
+def get_answer(numChecker):
     result = 0
     for line in lines:
         hits = filter_none([numChecker(line, i) for i in range(len(line))])
@@ -36,6 +36,6 @@ def getAnswer(numChecker):
 
 ## Results ##
 print("Answer for Part 1:")
-print(getAnswer(DigitChecker))
+print(get_answer(digit_checker))
 print("Answer for Part 2:")
-print(getAnswer(DigitAndWordChecker))
+print(get_answer(digit_and_word_checker))
