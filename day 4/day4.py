@@ -21,7 +21,7 @@ for line in lines:
     correct_guesses = num_correct(guesses, correct)
     points = int(.5*(2**correct_guesses))
     point_total += points if points >= 1 else 0
-
+print("Answer for Part 1")
 print(point_total)
 
 # part 2
@@ -33,5 +33,5 @@ for i, line in enumerate(lines):
     for j in range(1,correct_guesses+1):
         if i+j < len(scratchcards_counts):
             scratchcards_counts[i+j] += scratchcards_counts[i]
-    
+print("Answer for Part 2")
 print(sum(scratchcards_counts))
