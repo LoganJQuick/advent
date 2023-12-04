@@ -1,8 +1,8 @@
 ## Input ##
 lines = open("day2.txt", 'r').readlines()
-
 colors = {'red': 12, 'green': 13, 'blue': 14}
 
+## Functions
 def valid_num(col, num):
     return num <= colors[col]
 
@@ -26,13 +26,19 @@ def game_powers(game):
             cols[col] = max(cols[col], num)
     return cols['red']*cols['blue']*cols['green']
 
-game_total = 0
-game_reqs = 0
-for line in lines:
-    game_num = int(line.split(': ')[0].split()[1])
-    if valid_game(line):
-        game_total += game_num
-    game_reqs += game_powers(line)
+def get_answers():
+    game_total = 0
+    game_reqs = 0
+    for line in lines:
+        game_num = int(line.split(': ')[0].split()[1])
+        if valid_game(line):
+            game_total += game_num
+        game_reqs += game_powers(line)
+    return game_total, game_reqs
 
-print(game_total)
-print(game_reqs)
+## Answers ##
+part1_answer, part2_answer = get_answers()
+print("Part 1 Answer")
+print(part1_answer)
+print("Part 2 Answer")
+print(part2_answer)
