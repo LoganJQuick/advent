@@ -1,37 +1,38 @@
 ## Input ##
+import re
 lines = open("day4.txt", 'r').readlines()
-point_total = 0
-scratchcards_counts = [1 for _ in range(len(lines))]
 
-def get_correct_nums(line):
-    return list(map(lambda x: int(x), line.split(':')[1].split("|")[0].split()))
+CARD_RE = re.compile(r"Card\s+[0-9]+: (?P<win_nums>[0-9 ]+) \| (?P<your_nums>[0-9 ]+)")
 
-def get_guess_nums(line):
-    return list(map(lambda x: int(x.strip()), line.split("|")[1].split()))
+def get_nums(line):
+    match = CARD_RE.match(line)
+    correct = [int(n) for n in match.group("win_nums").split()]
+    guesses = [int(n) for n in match.group("your_nums").split()]
+    return (correct, guesses)
 
-def num_correct(guesses, correct):
-    return len(list(filter(lambda x: x in correct, guesses)))
+def num_correct(line):
+    guesses, correct = get_nums(line)
+    return len(set(guesses) & set(correct))
 
-# part 1
+def get_part1_answer():
+    result = 0
+    for line in lines:
+        correct_guesses = num_correct(line)
+        points = 2**(correct_guesses-1)
+        result += points if points >= 1 else 0
+    return result
 
-for line in lines:
-    correct = get_correct_nums(line)
-    guesses = get_guess_nums(line)
-    points = .5
-    correct_guesses = num_correct(guesses, correct)
-    points = int(.5*(2**correct_guesses))
-    point_total += points if points >= 1 else 0
+def get_part2_answer():
+    scratchcards_counts = [1 for _ in range(len(lines))]
+    for i, line in enumerate(lines):
+        correct_guesses = num_correct(line)
+        for j in range(1,correct_guesses+1):
+            if i+j < len(scratchcards_counts):
+                scratchcards_counts[i+j] += scratchcards_counts[i]
+    return sum(scratchcards_counts)
+
+## Answers ##
 print("Answer for Part 1")
-print(point_total)
-
-# part 2
-
-for i, line in enumerate(lines):
-    correct = get_correct_nums(line)
-    guesses = get_guess_nums(line)
-    correct_guesses = num_correct(guesses, correct)
-    for j in range(1,correct_guesses+1):
-        if i+j < len(scratchcards_counts):
-            scratchcards_counts[i+j] += scratchcards_counts[i]
+print(get_part1_answer())
 print("Answer for Part 2")
-print(sum(scratchcards_counts))
+print(get_part2_answer())
