@@ -2,12 +2,11 @@
 import re
 lines = open("day4.txt", 'r').readlines()
 
-CARD_RE = re.compile(r"Card\s+[0-9]+: (?P<win_nums>[0-9 ]+) \| (?P<your_nums>[0-9 ]+)")
-
 def get_nums(line):
-    match = CARD_RE.match(line)
-    correct = [int(n) for n in match.group("win_nums").split()]
-    guesses = [int(n) for n in match.group("your_nums").split()]
+    # Using Borja's regex
+    match = re.compile(r"Card\s+[0-9]+: (?P<correct_nums>[0-9 ]+) \| (?P<guess_nums>[0-9 ]+)").match(line)
+    correct = [int(n) for n in match.group("correct_nums").split()]
+    guesses = [int(n) for n in match.group("guess_nums").split()]
     return (correct, guesses)
 
 def num_correct(line):
