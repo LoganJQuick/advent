@@ -43,18 +43,21 @@ def part2_test(node):
     return node.tag[-1] == 'Z'
 
 # finds number of steps to destination node using relevant check for end-node-edness
-def num_steps(node, target_test):
+def num_steps(node, target_test, loops=1):
     dirs = lines[0].strip()
     i = 0
     count = 0
     curr = node
-    while not target_test(curr):
+    loops_made = 0
+    while not target_test(curr) or loops_made < loops:
         if dirs[i] == 'R':
             curr = curr.right
         else:
             curr = curr.left
         count += 1
         i = (i+1) % len(dirs)
+        if target_test(curr):
+            loops_made += 1
     return count
 
 ## Get Answers ##
