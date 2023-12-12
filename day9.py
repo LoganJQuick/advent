@@ -1,6 +1,6 @@
 ## Functions ##
 def all_zeros(nums):
-    return all([x == 0 for x in nums])
+    return all(x == 0 for x in nums)
 
 def parse_lines(lines):
     return [[int(num) for num in line.strip().split()] for line in lines]
@@ -25,7 +25,7 @@ def reverse_all_lines(lines):
       
 ## Main ##  
 if __name__ == "__main__":
-    lines = open('day 9/day9.txt').readlines()
+    lines = open('inputs/day9.txt').readlines()
     parsed_lines = parse_lines(lines)
     print("Answer for Part 1")
     print(get_answer(parsed_lines))

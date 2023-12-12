@@ -1,5 +1,5 @@
 ## Input ##
-lines = open("day5.txt", 'r').readlines()
+lines = open("inputs/day5.txt", 'r').readlines()
 seeds = [int(n) for n in lines[0].split(":")[1].split()]
 part_2_seeds = [n for n in seeds]
 
@@ -32,7 +32,6 @@ def in_seed_range(n):
     i = 0
     while i < len(part_2_seeds):
         if part_2_seeds[i] <= n < part_2_seeds[i]+part_2_seeds[i+1]:
-            print(part_2_seeds[i], part_2_seeds[i+1], n)
             return True
         i += 2
     return False

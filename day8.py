@@ -1,7 +1,5 @@
 import re
 from math import gcd
-## Input ##
-lines = open('day8.txt').readlines()
 
 ## Class ##
 class Node:
@@ -13,7 +11,7 @@ class Node:
 
 ## Helper Functions ##
 # builds nodes from input
-def build_nodes():
+def build_nodes(lines):
     nodes = {}
     neighbors = {}
     for line in lines[2:]:
@@ -61,13 +59,13 @@ def num_steps(node, target_test, loops=1):
     return count
 
 ## Get Answers ##
-def get_part1_answer():
-    nodes = build_nodes()
+def get_part1_answer(lines):
+    nodes = build_nodes(lines)
     node = nodes['AAA']
     return num_steps(node, part1_test)
 
-def get_part2_answer():
-    nodes = build_nodes()
+def get_part2_answer(lines):
+    nodes = build_nodes(lines)
     start_nodes = [nodes[node] for node in nodes if node[-1] == 'A']
     counts = []
     for node in start_nodes:
@@ -77,5 +75,11 @@ def get_part2_answer():
         lcm = lcm*n//gcd(lcm, n)
     return lcm
 
-print(get_part1_answer())
-print(get_part2_answer())
+
+## Main ##  
+if __name__ == "__main__":
+    lines = open('inputs/day8.txt').readlines()
+    print("Answer for Part 1")
+    print(get_part1_answer(lines))
+    print("\nAnswer for Part 2")
+    print(get_part2_answer(lines))

@@ -1,6 +1,6 @@
 ## Input ##
 import re
-lines = open("day4.txt", 'r').readlines()
+lines = open("inputs/day4.txt", 'r').readlines()
 
 def get_nums(line):
     # Using Borja's regex

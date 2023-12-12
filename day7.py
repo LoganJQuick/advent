@@ -1,10 +1,6 @@
 from collections import Counter
-## Input ##
-lines = open("day7.txt", 'r').readlines()
 
-card_types_1 = {"A": 13, "K": 12, "Q": 11, "J": 10, "T": 9, "9": 8, "8": 7, "7": 6, "6": 5, "5": 4, "4": 3, "3": 2, "2": 1}
-card_types_2 = {"A": 13, "K": 12, "Q": 11, "T": 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2, "J": 1}
-
+## Functions ##
 def hand_type_1(hand):
     counts = Counter(hand)
     three = False
@@ -54,23 +50,25 @@ def hand_type_2(hand):
         return 4 if jokers else 2
     return 2 if jokers else 1
 
-def hand_value(hand, part1=True):
-    result = hand_type_1(hand) if part1 else hand_type_2(hand)
+def hand_value(hand, type_of_hand_function, card_map):
+    result = type_of_hand_function(hand)
     for c in hand:
         result *= 100
-        result += card_types_1[c] if part1 else card_types_2[c]
+        result += card_map[c]
     return result
 
 def hand_sorter(hand_and_wager):
     hand, _ = hand_and_wager
-    return hand_value(hand)
+    card_types_1 = {"A": 13, "K": 12, "Q": 11, "J": 10, "T": 9, "9": 8, "8": 7, "7": 6, "6": 5, "5": 4, "4": 3, "3": 2, "2": 1}
+    return hand_value(hand, hand_type_1, card_types_1)
 
 def hand_sorter_2(hand_and_wager):
     hand, _ = hand_and_wager
-    return hand_value(hand, False)
+    card_types_2 = {"A": 13, "K": 12, "Q": 11, "T": 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2, "J": 1}
+    return hand_value(hand, hand_type_2, card_types_2)
 
 
-def get_answer(key):
+def get_answer(lines, key):
     hands = []
     for line in lines:
         hand = line.split()[0]
@@ -84,7 +82,10 @@ def get_answer(key):
         total += (i+1)*wager
     return total
 
-print(get_answer(hand_sorter))
-print(get_answer(hand_sorter_2))
-
-print(hand_value('JJJ2A', False))
+## Main ##  
+if __name__ == "__main__":
+    lines = open("inputs/day7.txt", 'r').readlines()
+    print("Answer for Part 1")
+    print(get_answer(lines, hand_sorter))
+    print("Answer for Part 2")
+    print(get_answer(lines, hand_sorter_2))

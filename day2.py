@@ -1,5 +1,5 @@
 ## Input ##
-lines = open("day2.txt", 'r').readlines()
+lines = open("inputs/day2.txt", 'r').readlines()
 colors = {'red': 12, 'green': 13, 'blue': 14}
 
 ## Functions

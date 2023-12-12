@@ -1,5 +1,5 @@
 ## Input ##
-lines = open("day3.txt", 'r').readlines()
+lines = open("inputs/day3.txt", 'r').readlines()
 lines = list(map(lambda x: x.strip(), lines))
 dirs = [(n, m) for n in [1,0,-1] for m in [1,0,-1]]
 
