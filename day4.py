@@ -1,6 +1,5 @@
 ## Input ##
 import re
-lines = open("inputs/day4.txt", 'r').readlines()
 
 def get_nums(line):
     # Using Borja's regex
@@ -30,8 +29,10 @@ def get_part2_answer():
                 scratchcards_counts[i+j] += scratchcards_counts[i]
     return sum(scratchcards_counts)
 
-## Answers ##
-print("Answer for Part 1")
-print(get_part1_answer())
-print("Answer for Part 2")
-print(get_part2_answer())
+## Main ##  
+if __name__ == "__main__":
+    lines = open("inputs/day4.txt", 'r').readlines()
+    print("Answer for Part 1")
+    print(get_part1_answer())
+    print("Answer for Part 2")
+    print(get_part2_answer())   
