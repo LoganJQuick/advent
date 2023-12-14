@@ -1,10 +1,5 @@
 from collections import deque
 from matplotlib.path import Path
-lines = open('inputs/day10.txt').readlines()
-lines = [line.strip() for line in lines]
-dirs = [(1,0), (0,1), (-1,0), (0,-1)]
-pipes = {'|': (0,2), '-': (1,3), 'L': (1,2), 'J': (2,3), '7': (0,3), 'F': (0,1)}
-lefts = {(1,0): (0,1), (0,1):(-1,0), (-1,0):(0,-1),(0,-1):(1,0)}
 
 class Node:
     tag = None
@@ -76,24 +71,30 @@ def get_region(point, loop_points):
             q.append((i+x,j+y))
     return region
 
-starting_pos = get_start()
-print("Answer for Part 1")
-path = bfs(starting_pos)
-print(int((len(path)) / 2))
-loop_points = set(path)
-outside = set([(i,j) for i in range(len(lines)) for j in range(len(lines[0])) if (i,j) not in loop_points])
+def get_part2_answer(path):
+    loop_points = set(path)
+    outside = set([(i,j) for i in range(len(lines)) for j in range(len(lines[0])) if (i,j) not in loop_points])
 
-p = Path(path)
-enclosed = set()
-for (i,j) in outside:
-        if (i,j) not in loop_points and (i,j) not in enclosed and p.contains_point((i,j)):
-            enclosed = enclosed.union(get_region((i,j), loop_points))
-print(len(enclosed))
+    p = Path(path)
+    enclosed = set()
+    for (i,j) in outside:
+            if (i,j) not in loop_points and (i,j) not in enclosed and p.contains_point((i,j)):
+                enclosed = enclosed.union(get_region((i,j), loop_points))
+    return len(enclosed)
 
 
-exit()
+
 ## Main ##  
 if __name__ == "__main__":
     lines = open('inputs/day10.txt').readlines()
+    dirs = [(1,0), (0,1), (-1,0), (0,-1)]
+    pipes = {'|': (0,2), '-': (1,3), 'L': (1,2), 'J': (2,3), '7': (0,3), 'F': (0,1)}
+    lefts = {(1,0): (0,1), (0,1):(-1,0), (-1,0):(0,-1),(0,-1):(1,0)}    
+    lines = [line.strip() for line in lines]
+    starting_pos = get_start()
     print("Answer for Part 1")
-    print("\nAnswer for Part 2")
+    path = bfs(starting_pos)
+    print(int((len(path)) / 2))
+
+    print("Answer for Part 2")
+    print(get_part2_answer(path))
