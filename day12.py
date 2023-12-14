@@ -1,36 +1,37 @@
 lines = open('inputs\day12.txt', 'r').readlines()
 
+dp_mem = {}
 
-def check_valid(line):
-    groups = [s for s in line.split()[0].split('.') if s != '']
-    nums = [int(n) for n in line.split()[1].split(',')] 
-    if len(groups) != len(nums):
-        return False
-    
-    for i in range(len(groups)):
-        if len(groups[i]) != nums[i]:
-            return False
-    return True
 
-def dp(dots: int, hashes: int, i: int, line):
-    if dots == hashes == 0:
-        return 1 if check_valid(line) else 0
-    if line[i] != '?':
-        return dp(dots, hashes, i+1, line)
+def dp(line, dots, i, di, curr):
+    key = (i, di, curr)
+    if key in dp_mem:
+        return dp_mem[key]
+    if i==len(line):
+        if di==len(dots) and curr==0:
+            return 1
+        elif di==len(dots)-1 and dots[di]==curr:
+            return 1
+        else:
+            return 0
     result = 0
-    if dots>0:
-        dot_line = line[:i] + '.' + line[i+1:]
-        result += dp(dots-1, hashes, i+1, dot_line)
-    if hashes>0:
-        hash_line = line[:i] + '#' + line[i+1:]
-        result += dp(dots, hashes-1, i+1, hash_line)
+    for c in ['.', '#']:
+        if line[i]==c or line[i]=='?':
+            if c=='.' and curr==0:
+                result += dp(line, dots, i+1, di, 0)
+            elif c=='.' and curr>0 and di<len(dots) and dots[di]==curr:
+                result += dp(line, dots, i+1, di+1, 0)
+            elif c=='#':
+                result += dp(line, dots, i+1, di, curr+1)
+    dp_mem[key] = result
     return result
+        
+    
+
 
 def num_perms(line):
     counts = [int(n) for n in line.split()[1].split(',')]
-    hashes = sum(counts) - len([c for c in line if c=='#'])
-    dots = len(line.split()[0]) - sum(counts) - len([c for c in line if c=='.'])
-    return dp(dots, hashes, 0, line)
+    return dp(line.split()[0], counts, 0, 0, 0)
 
 def convert(line):
     code = '?'.join([line.split()[0] for i in range(5)])
@@ -39,7 +40,12 @@ def convert(line):
 
 total = 0
 for line in lines:
-    total += num_perms(line)
+    line = convert(line)
+    dots,blocks = line.split()
+    blocks = [int(x) for x in blocks.split(',')]
+    dp_mem.clear()
+    result = dp(dots, blocks, 0, 0, 0)
+    
+    total += result
+    dp_mem.clear()
 print(total)
-
-print(num_perms(convert(lines[1])))
