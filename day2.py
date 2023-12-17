@@ -1,7 +1,3 @@
-## Input ##
-lines = open("inputs/day2.txt", 'r').readlines()
-colors = {'red': 12, 'green': 13, 'blue': 14}
-
 ## Functions
 def valid_num(col, num):
     return num <= colors[col]
@@ -36,9 +32,12 @@ def get_answers():
         game_reqs += game_powers(line)
     return game_total, game_reqs
 
-## Answers ##
-part1_answer, part2_answer = get_answers()
-print("Part 1 Answer")
-print(part1_answer)
-print("Part 2 Answer")
-print(part2_answer)
+## Main ##  
+if __name__ == "__main__":
+    lines = open("inputs/day2.txt", 'r').readlines()
+    colors = {'red': 12, 'green': 13, 'blue': 14}
+    part1_answer, part2_answer = get_answers()
+    print("Part 1 Answer")
+    print(part1_answer)
+    print("Part 2 Answer")
+    print(part2_answer) 

@@ -1,7 +1,3 @@
-## Global Vars ##
-lines = open('inputs/day1.txt', 'r').readlines()
-nums = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine":  9}
-
 ## Functions ##
 def not_none(n):
     return n is not None
@@ -34,8 +30,13 @@ def get_answer(numChecker):
         result += hits[0]*10 + hits[-1]
     return result
 
-## Results ##
-print("Answer for Part 1:")
-print(get_answer(digit_checker))
-print("Answer for Part 2:")
-print(get_answer(digit_and_word_checker))
+
+
+## Main ##  
+if __name__ == "__main__":
+    lines = open('inputs/day1.txt', 'r').readlines()
+    nums = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine":  9}
+    print("Answer for Part 1:")
+    print(get_answer(digit_checker))
+    print("Answer for Part 2:")
+    print(get_answer(digit_and_word_checker))

@@ -48,19 +48,15 @@ def get_rock_vals(rock_pos, lines, directions=[(-1,0)], times=1):
         result += len(lines) - i
     return result
 
-def get_part1_answer(lines):
+def get_answer(lines, part2=False):
     rock_pos = get_rock_pos(lines)
-    return get_rock_vals(rock_pos, lines)
-
-def get_part2_answer(lines):
-    rock_pos = get_rock_pos(lines)
-    return get_rock_vals(rock_pos, lines, [(-1,0), (0,-1), (1, 0), (0, 1)], 1000000000)
+    return get_rock_vals(rock_pos, lines) if not part2 else get_rock_vals(rock_pos, lines, [(-1,0), (0,-1), (1, 0), (0, 1)], 1000000000)
 
 ## Main ##  
 if __name__ == "__main__":
     lines = open('inputs/day14.txt').readlines()
     lines = [line.strip() for line in lines]
     print("Answer for Part 1:")
-    print(get_part1_answer(lines))
+    print(get_answer(lines))
     print("\nAnswer for Part 2")
-    print(get_part2_answer(lines))
+    print(get_answer(lines, True))

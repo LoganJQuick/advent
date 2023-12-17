@@ -1,9 +1,3 @@
-## Input ##
-lines = open("inputs/day3.txt", 'r').readlines()
-lines = list(map(lambda x: x.strip(), lines))
-dirs = [(n, m) for n in [1,0,-1] for m in [1,0,-1]]
-
-
 ## Classes ##
 class Number:
     start_col: int
@@ -29,7 +23,6 @@ class Number_List:
             if num.overlap(Number):
                 return
         self.List.append(Number)
-
 
 ## Functions ##
 def process_symbols():
@@ -76,10 +69,13 @@ def get_part2_answer(symbols):
             total += adj[0].val*adj[1].val
     return total
 
-
-## Answers ##
-symbols = process_symbols()
-print("Part 1 Answer")
-print(get_part1_answer(symbols))
-print("Part 2 Answer")
-print(get_part2_answer(symbols))
+## Main ##  
+if __name__ == "__main__":
+    lines = open("inputs/day3.txt", 'r').readlines()
+    lines = list(map(lambda x: x.strip(), lines))
+    dirs = [(n, m) for n in [1,0,-1] for m in [1,0,-1]]
+    symbols = process_symbols()
+    print("Part 1 Answer")
+    print(get_part1_answer(symbols))
+    print("Part 2 Answer")
+    print(get_part2_answer(symbols))
