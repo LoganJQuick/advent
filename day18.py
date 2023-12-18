@@ -1,17 +1,10 @@
 from collections import deque
+import numpy as np
 import time
 dirs = {'D': (1,0), 'R': (0,1), 'U':(-1,0), 'L': (0,-1)}
-
+dir_symbols = ['R', 'D', 'L', 'U']
 def decode_hex(hex):
-    match hex[-1]:
-        case '0':
-            dir = 'R'
-        case '1':
-            dir = 'D'
-        case '2':
-            dir = 'L'
-        case '3':
-            dir = 'U'
+    dir = dir_symbols[int(hex[-1])]
     count = int(hex[1:6], base=16)
     return [dir, count, '']
 
@@ -24,61 +17,28 @@ def parse_input(lines: list[str]):
         result.append([dir, count, serial])
     return result
 
-def add_tuple(t1, t2):
-    t11, t12 = t1
-    t21, t22 = t2
-    return (t11+t21,t12+t22)
-
-def bfs_fill(start, curve):
-    seen = set()
-    q = deque([start])
-    while q:
-        curr = q.popleft()
-        if curr in seen or curr in curve:
-            continue
-        i, j = curr
-        seen.add(curr)
-        for dir in dirs.values():
-            di, dj = dir
-            q.append((i+di,j+dj))
-    return len(seen)
-
 def get_curve(lines):
-    point = (0,0)
-    curve = set()
+    i, j = 0, 0
+    edges = 0
+    area = 0
     for line in lines:
         dir_symbol, count, _ = line
-        dir = dirs[dir_symbol]
-        for _ in range(count):
-            point = add_tuple(point, dir)
-            curve.add(point)
-    return curve
-        
-        
-def draw_picture(curve, lower, upper):
-    picture = []
-    for i in range(lower,upper):
-        curr = ""
-        for j in range(lower,upper):
-            if (i,j) in curve:
-                curr += "#"
-            else:
-                curr += "."
-        picture.append(curr)
-    for line in picture:
-        print(line)
+        di, dj = dirs[dir_symbol]
+        di, dj = di*count, dj*count
+        i, j = i+di, j+dj
+        edges += count
+        area += j*di
+    return int(area + edges/2 + 1)
 
 def get_part1_answer(lines):
-    curve = get_curve(parse_input(lines))
-    return bfs_fill((1,1), curve) + len(curve)
+    return get_curve(parse_input(lines))
 
 def get_part2_answer(lines):
     new_lines = []
     for line in parse_input(lines):
         _, _, hex = line
         new_lines.append(decode_hex(hex))
-    curve = get_curve(new_lines)
-    return bfs_fill((1,1), curve) + len(curve)
+    return get_curve(new_lines)
     
 
 ## Main ##  
