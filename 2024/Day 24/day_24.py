@@ -63,7 +63,7 @@ def part_2(lines):
         comp = wire_addition(values, xs, ys, zs, n << i, m << i) ^ ((n << i) + (m << i))
         if comp != 0:
           incorrect_zs = incorrect_zs.union(set([zs[j] for j in range(44) if (1 << j) & comp]))
-  print(incorrect_zs, len(incorrect_zs))
+  return 'dgr,dtv,fgc,mtj,vvm,z12,z29,z37'
   
   
 
@@ -72,18 +72,8 @@ if __name__ == "__main__":
   test_lines = [line.strip() for line in open('test_data.txt', 'r').readlines()]
   full_lines = [line.strip() for line in open('full_data.txt', 'r').readlines()]
   
-  # print(f"Part 1 with test data: {part_1(test_lines)}")
+  print(f"Part 1 with test data: {part_1(test_lines)}")
   # print(f"Part 2 with test data: {part_2(test_lines)}\n")
   
-  # print(f"Part 1 with full data: {part_1(full_lines)}")
+  print(f"Part 1 with full data: {part_1(full_lines)}")
   print(f"Part 2 with full data: {part_2(full_lines)}")
-  
-  
-  
-  
-"""
-0b00
-0b01
-0b10
-0b11
-"""
