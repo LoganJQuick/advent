@@ -39,10 +39,6 @@ def part_1(lines):
             buttons.append(new_button)
           press_counts[new_button] = min(press_counts.get(new_button, 10**100), new_button_presses)
   return presses
-    
-  
-  
-
   
 def array_from_buttons(buttons, voltages):
   array = np.zeros((len(voltages), len(buttons)))
@@ -64,8 +60,6 @@ def part_2(lines):
     presses += res.x.sum()
     
   return int(presses)
-    
-
 
 if __name__ == "__main__":
   test_lines = [line.strip() for line in open('test_data.txt', 'r').readlines()]

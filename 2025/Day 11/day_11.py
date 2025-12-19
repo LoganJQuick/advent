@@ -1,3 +1,5 @@
+from functools import cache
+
 def get_adjacencies(lines):
   adjacencies = {}
   for line in lines:
@@ -41,8 +43,17 @@ def part_2(lines):
   
   one = num_paths_2(adj, 'svr', 'fft') * num_paths_2(adj, 'fft', 'dac') * num_paths_2(adj, 'dac', 'out')
   two = num_paths_2(adj, 'svr', 'dac') * num_paths_2(adj, 'dac', 'fft') * num_paths_2(adj, 'fft', 'out')
-  
   return one + two
+
+@cache
+def cached_solution(here, seen_dac, seen_fft):
+  if here == 'dac':
+    seen_dac = True
+  elif here == 'fft':
+    seen_fft = True
+  if here == 'out':
+    return 1 if seen_dac and seen_fft else 0
+  return sum([cached_solution(neighbor, seen_dac, seen_fft) for neighbor in adj[here]])
 
 
 if __name__ == "__main__":
@@ -55,3 +66,8 @@ if __name__ == "__main__":
   
   print(f"Part 1 with full data: {part_1(full_lines)}")
   print(f"Part 2 with full data: {part_2(full_lines)}")
+  
+  adj = get_adjacencies(full_lines)
+  print(cached_solution('you', True, True))
+  print(cached_solution('svr', False, False))
+  
